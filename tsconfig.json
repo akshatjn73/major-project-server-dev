@@ -9,8 +9,6 @@
     "target": "es6",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
-    "allowJs": true
-  },
+    "baseUrl": "./",  },
   "exclude": ["node_modules"]
 }
