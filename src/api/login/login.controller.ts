@@ -1,11 +1,11 @@
 import { Controller, Request, Post, UseGuards, Logger, Get, UnauthorizedException, Query, HttpStatus, Res, Body } from '@nestjs/common';
-import { LocalAuthGuard } from 'src/auth/guards/local-auth.guard';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { AuthService } from 'src/auth/auth.service';
-import { TokensService } from 'src/auth/tokens/tokens.service';
+import { LocalAuthGuard } from '../../auth/guards/local-auth.guard';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { AuthService } from '../../auth/auth.service';
+import { TokensService } from '../../auth/tokens/tokens.service';
 import { ExtractJwt } from 'passport-jwt';
 import { verify } from 'jsonwebtoken';
-import { ConfigService } from 'src/config/config.service';
+import { ConfigService } from '../../config/config.service';
 import { UserService } from '../user/user.service';
 
 @Controller()

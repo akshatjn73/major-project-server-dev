@@ -8,8 +8,8 @@ import { LocalStrategy } from './strategies/local.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '../config/config.module';
 import { TokensService } from './tokens/tokens.service';
-import { TokenModule } from 'src/repositories/token/token.module';
-import { ConfigService } from 'src/config/config.service'
+import { TokenModule } from '../repositories/token/token.module';
+import { ConfigService } from '../config/config.service'
 
 @Module({
   imports: [

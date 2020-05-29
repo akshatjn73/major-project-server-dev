@@ -1,9 +1,9 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { TokenService } from 'src/repositories/token/token.service';
+import { TokenService } from '../../repositories/token/token.service';
 import { randomBytes } from 'crypto';
 import * as moment from 'moment';
 import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from 'src/config/config.service';
+import { ConfigService } from '../../config/config.service';
 import { verify, sign } from 'jsonwebtoken';
 import { JwtPayload } from '../jwt-payload';
 import * as fs from 'fs';
