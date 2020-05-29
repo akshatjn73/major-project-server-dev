@@ -20,4 +20,9 @@ export class Member {
     this.password = await bcrypt.hash(this.password, 10);
   }
 
+  @Column("simple-array", {nullable: true})
+  authGCU: string[];
+
+  @Column("simple-array", {nullable: true})
+  authLCU: string[];
 }

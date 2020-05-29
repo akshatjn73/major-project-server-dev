@@ -9,6 +9,7 @@ import { UserModule } from './api/user/user.module';
 import { LoginModule } from './api/login/login.module';
 import { AuthModule } from './auth/auth.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { TemperatureModule } from './api/temperature/temperature.module'
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     UserModule,
     LoginModule,
     AuthModule,
+    TemperatureModule,
     ScheduleModule.forRoot()
   ],
   controllers: [AppController],
