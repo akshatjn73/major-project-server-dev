@@ -24,6 +24,7 @@ export class ActivityController {constructor(private readonly configService: Con
             let switchId = body.switchId;
             let status = body.switchStatus;
             if (status == 'ON') operation = true;
+            if (status == 'OFF') operation = false;
             const activityData = {
                 switchId: switchId,
                 operation: operation,
