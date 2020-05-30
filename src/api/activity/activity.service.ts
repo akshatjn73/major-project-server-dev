@@ -45,7 +45,7 @@ export class ActivityService {
             activities.push(data);
             let timestamp = item.createdAt;
             let timeString = timestamp.toString();
-            let startIndex = timeString.search('20200') + 5;
+            let startIndex = timeString.search('2020 ') + 5;
             let time = await this.getString(timeString,startIndex, startIndex+5);
             timestamps.push(time);
         }    

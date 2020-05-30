@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { TemperatureDataService } from '../../repositories/temperature-data/temperature-data.service';
 
 @Injectable()
@@ -40,7 +40,8 @@ export class TemperatureService {
             temperatures.push(item.value);
             let timestamp = item.createdAt;
             let timeString = timestamp.toString();
-            let startIndex = timeString.search('20200') + 5;
+            Logger.log(timeString)
+            let startIndex = timeString.search('2020 ') + 5;
             let time = await this.getString(timeString,startIndex, startIndex+5);
             timestamps.push(time);
         }
