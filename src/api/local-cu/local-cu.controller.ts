@@ -2,6 +2,7 @@ import { Controller, Post, Request, Res, Body, Logger, HttpStatus, UseGuards, Ge
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { ConfigService } from '../../config/config.service';
 import { LocalCuService } from './local-cu.service';
+import { identity } from 'rxjs';
 
 @Controller('lcu')
 export class LocalCuController {    
@@ -32,12 +33,12 @@ export class LocalCuController {
         }
     }
 
-    @Get(':id')
-    async getGcu(
-        @Param('id') id 
-    ) {
-        return await this.localCuService.getLcu(id);
-    }
+    // @Get(':id')
+    // async getGcu(
+    //     @Param('id') id 
+    // ) {
+    //     return await this.localCuService.getLcu(id);
+    // }
 
     // @UseGuards(JwtAuthGuard)
     @Get()
@@ -56,6 +57,29 @@ export class LocalCuController {
             Logger.error(error);
             return res.status(HttpStatus.BAD_REQUEST).json({
                 message: error.message,
+            });
+        }
+    }
+
+    @Get(':id')
+    async getLcu(
+        @Res() res,
+        @Param('id') id
+    ) {
+        try {
+            let lcu = await this.localCuService.getLcu(id);
+            const data = await this.localCuService.getLcuStats(lcu);
+            if (data) {
+                return res.status(HttpStatus.OK).json({
+                    message: 'Stats fetched successfully',
+                    lcu,
+                    data
+                });
+            }
+        } catch (error) {
+            Logger.error(error);
+            return res.status(HttpStatus.BAD_REQUEST).json({
+                message: error.message
             });
         }
     }

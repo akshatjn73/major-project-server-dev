@@ -22,6 +22,10 @@ export class LcuService {
             });
     }
 
+    async update(id, data): Promise<any> {
+        return await this.repository.update(id, data);
+      }
+
     async delete(id): Promise<any> {
         return await this.repository.delete({ id });
     }

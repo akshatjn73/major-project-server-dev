@@ -47,7 +47,7 @@ export class GroupCuService {
         for (let localCu of gcu.lcu ) {
             lcu = await this.lcuService.findOne(localCu.id)
             let switches = lcu.switches;
-            switchCount = switches.length;
+            switchCount+=switches.length;
             for (let smartSwitch of switches) {
                 sum+=smartSwitch.time;
                 let highestTemp = await this.temperatureService.getHighestTemperatures(smartSwitch.id);

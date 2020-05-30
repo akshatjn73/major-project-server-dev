@@ -2,11 +2,13 @@ import { Controller, UseGuards, Res, Body, Post, HttpStatus, Logger, Get, Param 
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { ConfigService } from '../../config/config.service';
 import { SmtSwitchService } from './smt-switch.service';
+import { LcuService } from '../../repositories/lcu/lcu.service';
 
 @Controller('switch')
 export class SmtSwitchController {
     constructor(
-        private readonly switchService: SmtSwitchService
+        private readonly switchService: SmtSwitchService,
+        private readonly lcuService: LcuService
     ) { }
     
     // @UseGuards(JwtAuthGuard)
@@ -17,6 +19,10 @@ export class SmtSwitchController {
     ) {
         try {
             const smartSwitch = await this.switchService.createSmartSwitch(body);
+            let lcu = await this.lcuService.findOne(body.lcu);
+            await this.lcuService.update(lcu.id, {
+                switchCount: lcu.switchCount+1,
+            });
             return res.status(HttpStatus.OK).json({
                 message: 'Switch created successfully',
                 smartSwitch,

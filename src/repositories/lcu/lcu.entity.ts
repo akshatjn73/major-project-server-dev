@@ -14,6 +14,9 @@ export class LCU {
   @JoinColumn()
   switches: SmartSwitch[];
 
+  @Column({ default:0 })
+  switchCount: number;
+
   @ManyToOne(type => GCU, gcu => gcu.lcu)
   @JoinColumn()
   gcu: GCU;
