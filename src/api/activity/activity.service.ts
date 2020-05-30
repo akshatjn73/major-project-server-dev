@@ -44,11 +44,11 @@ export class ActivityService {
             else data=0;
             activities.push(data);
             let timestamp = item.createdAt;
-            let startIndex = timestamp.search('20200') + 5;
-            let time = await this.getString(timestamp.toString(),startIndex, startIndex+5);
+            let timeString = timestamp.toString();
+            let startIndex = timeString.search('20200') + 5;
+            let time = await this.getString(timeString,startIndex, startIndex+5);
             timestamps.push(time);
-        }
-        
+        }    
         return {
             activities,
             timestamps            
