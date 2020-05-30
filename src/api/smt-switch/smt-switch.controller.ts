@@ -9,7 +9,7 @@ export class SmtSwitchController {
         private readonly switchService: SmtSwitchService
     ) { }
     
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     @Post()
     async createSwitch(
         @Res() res,
@@ -29,7 +29,7 @@ export class SmtSwitchController {
         }
     }
 
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     @Get()
     async getAllSwitches(
         @Res() res,
@@ -47,7 +47,7 @@ export class SmtSwitchController {
         }
     }
 
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     @Get(':id')
     async getSmartSwitch(@Res() res, @Param('id') id) {
         try {

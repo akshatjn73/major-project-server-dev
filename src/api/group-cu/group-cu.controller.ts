@@ -1,4 +1,55 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Post, Request, Res, Body, HttpStatus, Logger, Get } from '@nestjs/common';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { ConfigService } from '../../config/config.service';
+import { GroupCuService } from './group-cu.service';
 
-@Controller('group-cu')
-export class GroupCuController {}
+@Controller('gcu')
+export class GroupCuController {
+    constructor(private readonly configService: ConfigService,
+        private readonly groupCuService: GroupCuService
+    ) { }
+
+    // @UseGuards(JwtAuthGuard)
+    @Post()
+    async createGcu(
+        @Request() req,
+        @Res() res,
+        @Body() body,
+    ) {
+        try {
+            const gcu = await this.groupCuService.createGcu(body);
+            if (gcu) {
+                return res.status(HttpStatus.OK).json({
+                    message: 'gcu created',
+                    gcu
+                });
+            }
+        } catch (error) {
+            Logger.error(error);
+            return res.status(HttpStatus.BAD_REQUEST).json({
+                message: error.message
+            });
+        }
+    }
+
+    // @UseGuards(JwtAuthGuard)
+    @Get()
+    async getAllGcu(
+        @Res() res,
+    ) {
+        try {
+            const gcu = await this.groupCuService.getAllGcu();
+            if (gcu) {
+                return res.status(HttpStatus.OK).json({
+                    message: 'gcus fetched successfully',
+                    gcu
+                });
+            }    
+        } catch (error) {
+            Logger.error(error);
+            return res.status(HttpStatus.BAD_REQUEST).json({
+                message: error.message,
+            });
+        }
+    }
+}

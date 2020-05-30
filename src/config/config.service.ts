@@ -11,7 +11,7 @@ export interface EnvConfig {
 export class ConfigService {
   private readonly envConfig: { [key: string]: string };
   constructor(filePath: string) {
-    filePath = 'environments/development.env'
+    filePath = 'environments/production.env'
     console.log(filePath)
     const config = dotenv.parse(fs.readFileSync(filePath));
     this.envConfig = this.validateInput(config);
