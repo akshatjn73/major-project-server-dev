@@ -43,7 +43,6 @@ export class TemperatureService {
             let time = await this.getString(timestamp.toString(),startIndex, startIndex+5);
             timestamps.push(time);
         }
-        
         return {
             temperatures,
             timestamps
