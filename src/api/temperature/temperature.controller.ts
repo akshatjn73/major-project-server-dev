@@ -18,10 +18,8 @@ export class TemperatureController {
         @Body() body,
         ) {
         try {
-            Logger.log(body);
-            let data = body.toString();
-            let switchId = await this.temperatureService.getString(data,'switchId=','temp=');
-            let value = await this.temperatureService.getString(data, 'temp=','&headers');
+            let switchId = body.switchId;
+            let value = body.temp;
             const temperatureData = {
                 switchId: switchId,
                 value: value,

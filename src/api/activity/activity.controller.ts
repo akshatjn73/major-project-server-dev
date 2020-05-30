@@ -20,11 +20,10 @@ export class ActivityController {constructor(private readonly configService: Con
     ) {
         try {
             Logger.log(body)
-            let data = body.toString();
             let operation: boolean = false;
-            let switchId = await this.activityService.getString(data, 'switchId=', 'switchStatus=');
-            let status = await this.activityService.getString(data, 'switchStatus=', '&headers');
-            if (status == 'on') operation = true;
+            let switchId = body.switchId;
+            let status = body.switchStatus;
+            if (status == 'ON') operation = true;
             const activityData = {
                 switchId: switchId,
                 operation: operation,
