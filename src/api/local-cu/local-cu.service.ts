@@ -33,6 +33,26 @@ export class LocalCuService {
         return items;
     }
 
+    async getAllLcuStats(lcus) {
+        let switchPower: number = 0;
+        let powers = [];
+        let names = []
+        for (let id of lcus) {
+            let lcu = await this.lcuService.findOne(id);
+            names.push(lcu.name);
+            for (let smartSwitch of lcu.switches) {
+                let power = smartSwitch.time*smartSwitch.powerRating;
+                switchPower+=power;
+            }
+            powers.push(switchPower);
+            switchPower=0;         
+        }
+        return {
+            powers,
+            names
+        }
+    }
+
     async getLcuStats(lcu) {
         let sum: number = 0;
         let temperatures = []

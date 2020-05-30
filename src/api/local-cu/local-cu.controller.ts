@@ -3,11 +3,13 @@ import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { ConfigService } from '../../config/config.service';
 import { LocalCuService } from './local-cu.service';
 import { identity } from 'rxjs';
+import { MemberService } from '../../repositories/member/member.service';
 
 @Controller('lcu')
 export class LocalCuController {    
     constructor(private readonly configService: ConfigService,
-        private readonly localCuService: LocalCuService
+        private readonly localCuService: LocalCuService,
+        private readonly memberService: MemberService
     ) { }
     
     // @UseGuards(JwtAuthGuard)
@@ -40,17 +42,20 @@ export class LocalCuController {
     //     return await this.localCuService.getLcu(id);
     // }
 
-    // @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard)
     @Get()
     async getAllLcu(
+        @Request() req,
         @Res() res,
     ) {
         try {
-            const lcu = await this.localCuService.getAllLcu();
-            if (lcu) {
+            const user = await this.memberService.findOne(req.user.id);
+            let lcus = user.authLCU;
+            const data = await this.localCuService.getAllLcuStats(lcus);
+            if (data) {
                 return res.status(HttpStatus.OK).json({
-                    message: 'Lcus fetched successfully',
-                    lcu
+                    message: 'lcu data fetched successfully',
+                    data
                 });
             }    
         } catch (error) {

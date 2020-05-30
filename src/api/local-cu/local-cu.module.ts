@@ -5,9 +5,10 @@ import { LocalCuService } from './local-cu.service';
 import { LocalCuController } from './local-cu.controller';
 import { LcuModule } from '../../repositories/lcu/lcu.module';
 import { TemperatureDataModule } from '../../repositories/temperature-data/temperature-data.module';
+import { MemberModule } from '../../repositories/member/member.module';
 
 @Module({
-    imports: [AuthModule, ConfigModule, LcuModule, TemperatureDataModule],
+    imports: [AuthModule, ConfigModule, LcuModule, TemperatureDataModule, MemberModule],
     controllers: [LocalCuController],
     providers: [LocalCuService],
     exports: [LocalCuService],
