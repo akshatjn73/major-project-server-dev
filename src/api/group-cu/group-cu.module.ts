@@ -6,9 +6,10 @@ import { GroupCuService } from './group-cu.service';
 import { GcuModule } from '../../repositories/gcu/gcu.module';
 import { LcuModule } from '../../repositories/lcu/lcu.module';
 import { TemperatureDataModule } from '../../repositories/temperature-data/temperature-data.module';
+import { MemberModule } from '../../repositories/member/member.module';
 
 @Module({
-    imports: [AuthModule, ConfigModule, GcuModule, LcuModule, TemperatureDataModule],
+    imports: [AuthModule, ConfigModule, GcuModule, LcuModule, TemperatureDataModule, MemberModule],
     controllers: [GroupCuController],
     providers: [GroupCuService],
     exports: [GroupCuService],

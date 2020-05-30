@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { GcuService } from '../../repositories/gcu/gcu.service';
 // import { SmartSwitchService } from '../../repositories/smart-switch/smart-switch.service';
 import { LcuService } from '../../repositories/lcu/lcu.service';
@@ -51,7 +51,7 @@ export class GroupCuService {
             for (let smartSwitch of switches) {
                 sum+=smartSwitch.time;
                 let highestTemp = await this.temperatureService.getHighestTemperatures(smartSwitch.id);
-                temperatures.push(highestTemp);
+                temperatures.push(highestTemp.max);
                 let power = smartSwitch.time*smartSwitch.powerRating;
                 totalPower+=power;
                 if (smartSwitch.state) {
