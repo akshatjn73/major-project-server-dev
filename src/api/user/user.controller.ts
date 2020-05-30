@@ -1,4 +1,4 @@
-import { Controller, Post, Res, Body, HttpStatus, Logger, Patch, Param, UseGuards, Get, Request } from '@nestjs/common';
+import { Controller, Post, Res, Body, HttpStatus, Logger, Patch, Param, UseGuards, Get, Request, Put } from '@nestjs/common';
 import { UserService } from './user.service';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 
@@ -66,6 +66,25 @@ export class UserController {
                 message: 'User fetched Successfully',
                 user
             });
+        } catch (error) {
+            Logger.error(error);
+            return res.status(HttpStatus.BAD_REQUEST).json({
+                message: error.message,
+            });
+        }
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Put()
+    async updateUser(@Res() res, @Request() req, @Body() body) {
+        try {
+            const result = await this.userService.updateMember(req.user.id, body);
+            if (result) {
+                return res.status(HttpStatus.OK).json({
+                    message: 'User updated successfully',
+                    result
+                });
+            }    
         } catch (error) {
             Logger.error(error);
             return res.status(HttpStatus.BAD_REQUEST).json({

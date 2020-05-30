@@ -11,8 +11,8 @@ export class UserService {
         return await this.memberService.save(member);
     }
 
-    async updateMember(id, member) {
-        return await this.memberService.update(id, member);
+    async updateMember(id, data) {
+        return await this.memberService.update(id, data);
     }
 
     async getMember(id) {
