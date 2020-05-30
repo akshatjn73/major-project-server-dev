@@ -29,7 +29,7 @@ export class ActivityController {constructor(private readonly configService: Con
                 operation: operation,
             };
             const result = await this.activityService.createActivity(activityData);
-            await this.switchService.updateSmartSwitch(switchId, {status: operation});
+            await this.switchService.updateSmartSwitch(switchId, {state: operation});
             if (result) {
                 return res.status(HttpStatus.OK).json({
                     message: 'Activity created',
