@@ -12,6 +12,15 @@ export class SmartSwitch {
   @Column({ default: false })
   state: boolean;
 
+  @UpdateDateColumn({ type: 'timestamp' })
+  modifiedAt: Date;
+
+  @Column({ nullable: true })
+  time: number;
+
+  @Column({ type:'float' })
+  powerRating: number;
+
   @ManyToOne(type => LCU, lcu => lcu.switches)
   @JoinColumn()
   lcu: LCU;

@@ -19,18 +19,31 @@ export class ActivityController {constructor(private readonly configService: Con
         @Body() body,
     ) {
         try {
-            Logger.log(body)
-            let operation: boolean = false;
+            let activityData: any;
+            let result: any;
             let switchId = body.switchId;
             let status = body.switchStatus;
-            if (status == 'ON') operation = true;
-            if (status == 'OFF') operation = false;
-            const activityData = {
+            activityData = {
                 switchId: switchId,
-                operation: operation,
             };
-            const result = await this.activityService.createActivity(activityData);
-            await this.switchService.updateSmartSwitch(switchId, {state: operation});
+            if (status == 'ON'){
+                activityData.operation = true
+                result = await this.activityService.createActivity(activityData);
+                await this.switchService.updateSmartSwitch(switchId, {state: true});
+            } 
+            if (status == 'OFF') {
+                activityData.operation = false
+                result = await this.activityService.createActivity(activityData);
+                const switchData = await this.switchService.getSmartSwitch(switchId);
+                let startTime = switchData.modifiedAt;
+                let endTime = result.createdAt;
+                const differenceInMinutes = await this.activityService.getDifferenceInMinutes(endTime, startTime);
+                let newTime = switchData.time + differenceInMinutes;
+                await this.switchService.updateSmartSwitch(switchId, {
+                    state: false,
+                    time: newTime
+                });
+            }
             if (result) {
                 return res.status(HttpStatus.OK).json({
                     message: 'Activity created',

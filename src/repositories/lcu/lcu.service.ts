@@ -16,7 +16,10 @@ export class LcuService {
     }
 
     async findOne(id): Promise<LCU> {
-        return await this.repository.findOne(id);
+        return await this.repository.findOne(id, 
+            {
+                relations: ['switches'],
+            });
     }
 
     async delete(id): Promise<any> {

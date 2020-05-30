@@ -44,4 +44,10 @@ export class ActivityService {
         let endIndex = str.search(end);
         return str.slice(startIndex, endIndex);
     }
+
+    async getDifferenceInMinutes(dt2, dt1) {
+        let difference = (dt2.getTime() - dt1.getTime()) / 1000;
+        difference /= 60;
+        return Math.abs(Math.round(difference));
+    }
 }

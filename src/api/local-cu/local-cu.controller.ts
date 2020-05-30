@@ -1,4 +1,4 @@
-import { Controller, Post, Request, Res, Body, Logger, HttpStatus, UseGuards, Get } from '@nestjs/common';
+import { Controller, Post, Request, Res, Body, Logger, HttpStatus, UseGuards, Get, Param } from '@nestjs/common';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { ConfigService } from '../../config/config.service';
 import { LocalCuService } from './local-cu.service';
@@ -30,6 +30,13 @@ export class LocalCuController {
                 message: error.message
             });
         }
+    }
+
+    @Get(':id')
+    async getGcu(
+        @Param('id') id 
+    ) {
+        return await this.localCuService.getLcu(id);
     }
 
     // @UseGuards(JwtAuthGuard)

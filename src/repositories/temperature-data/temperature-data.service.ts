@@ -26,4 +26,17 @@ export class TemperatureDataService {
     async getRepository(): Promise<Repository<Temperature>> {
         return this.repository;
     }
+
+    async getHighestTemperatures(switchId) {
+        let items:any
+        items = await this.repository
+            .createQueryBuilder('temperature')
+            .where("temperature.switchId = :id", {
+                id: switchId
+            })
+            .select("MAX(temperature.value)", "max")
+            .getRawOne()
+
+        return items
+    }
 }

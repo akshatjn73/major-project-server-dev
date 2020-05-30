@@ -43,4 +43,8 @@ export class TemperatureService {
         let endIndex = str.search(end);
         return str.slice(startIndex, endIndex);
     }
+
+    async getHighestTemp(switchId) {
+        return await this.temperatureDataService.getHighestTemperatures(switchId);
+    }
 }
