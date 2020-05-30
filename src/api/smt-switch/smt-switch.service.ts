@@ -8,22 +8,22 @@ export class SmtSwitchService {
     ) { }
 
     async createSmartSwitch(data) {
-        await this.smartSwitchService.save(data);
+        return await this.smartSwitchService.save(data);
     }
 
     async updateSmartSwitch(id, data) {
-        await this.smartSwitchService.update(id, data);
+        return await this.smartSwitchService.update(id, data);
     }
 
     async getAllSmartSwitch():Promise<any> {
-        await this.smartSwitchService.findAll();
+        return await this.smartSwitchService.findAll();
     }
 
     async getSmartSwitch(id) {
-        await this.smartSwitchService.findOne(id);
+        return await this.smartSwitchService.findOne(id);
     } 
 
     async deleteSmartSwitch(id) {
-        await this.smartSwitchService.delete(id);
+        return await this.smartSwitchService.delete(id);
     }
 }
