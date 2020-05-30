@@ -22,6 +22,9 @@ export class ActivityService {
 
     async getActivityBySwitch(switchId: string, days: number) {
         const currentDate = new Date();
+        let data:any;
+        let activities = [];
+        let timestamps = [];
         const previousDate = new Date(currentDate);
         previousDate.setDate(previousDate.getDate() - days);
         let items:any
@@ -35,14 +38,25 @@ export class ActivityService {
                 previousDate: previousDate.toISOString()
             })
             .getMany();
-
-        return items;
+        
+        for (let item of items) {
+            if (item.operation) data=1;
+            else data=0;
+            activities.push(data);
+            let timestamp = item.createdAt;
+            let startIndex = timestamp.search('20200') + 5;
+            let time = await this.getString(timestamp.toString(),startIndex, startIndex+5);
+            timestamps.push(time);
+        }
+        
+        return {
+            activities,
+            timestamps            
+        };
     }
 
     async getString(str, start, end) {
-        let startIndex = str.search(start) + start.length;
-        let endIndex = str.search(end);
-        return str.slice(startIndex, endIndex);
+        return str.slice(start, end);
     }
 
     async getDifferenceInMinutes(dt2, dt1) {

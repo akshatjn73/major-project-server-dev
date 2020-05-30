@@ -20,10 +20,12 @@ export class TemperatureService {
     }
 
     async getTemperatureBySwitch(switchId: string, days: number) {
+        let temperatures = [];
+        let timestamps = [];
         const currentDate = new Date();
         const previousDate = new Date(currentDate);
         previousDate.setDate(previousDate.getDate() - days);
-        let items:any
+        let items:any;
         let repository = await this.temperatureDataService.getRepository();
         items = await repository
             .createQueryBuilder('temperature')
@@ -34,14 +36,22 @@ export class TemperatureService {
                 previousDate: previousDate.toISOString()
             })
             .getMany();
+        for (let item of items) {
+            temperatures.push(item.value);
+            let timestamp = item.createdAt;
+            let startIndex = timestamp.search('20200') + 5;
+            let time = await this.getString(timestamp.toString(),startIndex, startIndex+5);
+            timestamps.push(time);
+        }
         
-        return items;
+        return {
+            temperatures,
+            timestamps
+        };
     }
 
     async getString(str, start, end) {
-        let startIndex = str.search(start) + start.length;
-        let endIndex = str.search(end);
-        return str.slice(startIndex, endIndex);
+        return str.slice(start, end);
     }
 
     async getHighestTemp(switchId) {
