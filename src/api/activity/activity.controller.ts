@@ -83,7 +83,9 @@ export class ActivityController {constructor(private readonly configService: Con
         @Query() queryParams,
     ) {
         try {
-            const activities = await this.activityService.getActivityBySwitch(queryParams.switchId, queryParams.days);
+            let noOfDays = queryParams.days
+            let d = noOfDays.substring(0, noOfDays.length-1);
+            const activities = await this.activityService.getActivityBySwitch(queryParams.switchId, d);
             if (activities) {
                 return res.status(HttpStatus.OK).json({
                     message: 'Activities fetched successfully',

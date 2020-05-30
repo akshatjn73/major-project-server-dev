@@ -63,7 +63,9 @@ export class TemperatureController {
         @Query() queryParams,
     ) {
         try {
-            const temperatures = await this.temperatureService.getTemperatureBySwitch(queryParams.switchId, queryParams.days);
+            let noOfDays = queryParams.days
+            let d = noOfDays.substring(0, noOfDays.length-1);
+            const temperatures = await this.temperatureService.getTemperatureBySwitch(queryParams.switchId, d);
             if (temperatures) {
                 return res.status(HttpStatus.OK).json({
                     message: 'temperatures fetched successfully',
