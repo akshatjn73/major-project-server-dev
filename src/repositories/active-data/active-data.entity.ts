@@ -9,7 +9,7 @@ export class ActiveData {
   switchId: string;
 
   @Column()
-  operation: string;
+  operation: Boolean;
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;

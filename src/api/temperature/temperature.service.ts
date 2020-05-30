@@ -7,8 +7,8 @@ export class TemperatureService {
         private readonly temperatureDataService: TemperatureDataService
     ) { }
 
-    async createTemperature(member) {
-        return await this.temperatureDataService.save(member);
+    async createTemperature(data) {
+        return await this.temperatureDataService.save(data);
     }
 
     async getTemperature(id) {
@@ -17,6 +17,25 @@ export class TemperatureService {
 
     async deleteTemperature(id) {
         return await this.temperatureDataService.delete(id);
+    }
+
+    async getTemperatureBySwitch(switchId: string, days: number) {
+        const currentDate = new Date();
+        const previousDate = new Date(currentDate);
+        previousDate.setDate(previousDate.getDate() - days);
+        let items:any
+        let repository = await this.temperatureDataService.getRepository();
+        items = await repository
+            .createQueryBuilder('temperature')
+            .where("temperature.switchId = :id", {
+                id: switchId
+            })
+            .andWhere("temperature.createdAt > :previousDate", {
+                previousDate: previousDate.toISOString()
+            })
+            .getMany();
+        
+        return items;
     }
 
     async getString(str, start, end) {

@@ -19,10 +19,18 @@ export class SmartSwitchService {
         return await this.repository.findOne(id);
     }
 
+    async findAll(): Promise<SmartSwitch[]> {
+        return await this.repository.find();
+      }
+
     async delete(id): Promise<any> {
         return await this.repository.delete({ id });
     }
 
+    async update(id, data): Promise<any> {
+        return await this.repository.update(id, data);
+    }
+    
     async getRepository(): Promise<Repository<SmartSwitch>> {
         return this.repository;
     }

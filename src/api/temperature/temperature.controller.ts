@@ -1,9 +1,8 @@
-import { Controller, Post, Request, Res, Body, UseFilters, UseGuards, HttpStatus, Logger, Get, Param } from '@nestjs/common';
+import { Controller, Post, Request, Res, Body, UseFilters, UseGuards, HttpStatus, Logger, Get, Param, Query } from '@nestjs/common';
 import { LocalAuthGuard } from '../../auth/guards/local-auth.guard';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { ConfigService } from '../../config/config.service';
 import { TemperatureService } from './temperature.service';
-import { lookup } from 'dns';
 
 @Controller('temperature')
 export class TemperatureController {
@@ -48,7 +47,7 @@ export class TemperatureController {
         try {
             const temperature = await this.temperatureService.getTemperature(id);
             return res.status(HttpStatus.OK).json({
-                message: 'Secret fetched successfully',
+                message: 'Temperature fetched successfully',
                 temperature
             });     
         } catch (error) {
@@ -58,5 +57,28 @@ export class TemperatureController {
             });
         }
     }
+
+    // @UseGuards(JwtAuthGuard)
+    @Get()
+    async getTemperatureBySwitch(
+        @Res() res,
+        @Query() queryParams,
+    ) {
+        try {
+            const temperatures = await this.temperatureService.getTemperatureBySwitch(queryParams.switchId, queryParams.days);
+            if (temperatures) {
+                return res.status(HttpStatus.OK).json({
+                    message: 'temperatures fetched successfully',
+                    temperatures
+                });
+            }    
+        } catch (error) {
+            Logger.error(error);
+            return res.status(HttpStatus.BAD_REQUEST).json({
+                message: error.message,
+            });
+        }
+    }
+    
 
 }
