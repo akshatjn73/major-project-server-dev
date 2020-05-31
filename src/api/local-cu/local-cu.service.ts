@@ -40,6 +40,7 @@ export class LocalCuService {
         for (let id of lcus) {
             let lcu = await this.lcuService.findOne(id);
             names.push(lcu.name);
+            Logger.log(lcu)
             for (let smartSwitch of lcu.switches) {
                 let power = smartSwitch.time*smartSwitch.powerRating;
                 switchPower+=power;
