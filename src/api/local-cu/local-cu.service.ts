@@ -111,14 +111,9 @@ export class LocalCuService {
             temperatures = [];
         }
         Logger.log(timestamps)
-        let timeData = {
-            timestamp: timestamps
-        }
-        Logger.log(timeData)
-        times.push(timeData)
-        return {
+            return {
             data,
-            times
+            timestamp: timestamps
         }
     }
 

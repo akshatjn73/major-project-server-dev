@@ -74,18 +74,24 @@ export class GroupCuController {
             const user = await this.memberService.findOne(req.user.id);
             if (user.authGCU == null) {
                 let lcuId = user.authLCU[0];
+                let newArray = [];
                 let lcu = await this.lcuService.findOne(lcuId);
                 let gcu = await this.groupCuService.getGcu(lcu.gcu.id);
-                const data = await this.groupCuService.getGcuStats(gcu);
+                const data = {
+                    sum: 0,
+                    highestTemperature: 0,
+                    totalPower: 0,
+                    switchCount: 0,
+                    activeSwitchCount: 0
+                }
                 let lcuLength = gcu.lcu.length;
                 let lcuArray = gcu.lcu
                 for (let i = 0; i < lcuLength; i++ ) {
                     if (user.authLCU.includes(lcuArray[i].id)) {
-                        continue;
-                    } else {
-                        delete gcu.lcu[i];
+                        newArray.push(gcu.lcu[i]);
                     }
                 }
+                gcu.lcu = newArray;
                 if (data) {
                     return res.status(HttpStatus.OK).json({
                         message: 'Stats fetched successfully',
