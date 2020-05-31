@@ -4,9 +4,6 @@ import { ConfigService } from '../../config/config.service';
 import { GroupCuService } from './group-cu.service';
 import { MemberService } from '../../repositories/member/member.service';
 import { LcuService } from '../../repositories/lcu/lcu.service';
-import { LCU } from 'dist/dist/dist/dist/dist/src/repositories/lcu/lcu.entity';
-import { PassThrough } from 'stream';
-import { GcuService } from 'dist/src/repositories/gcu/gcu.service';
 
 @Controller('gcu')
 export class GroupCuController {
@@ -97,7 +94,7 @@ export class GroupCuController {
                         admin: false                    
                     });    
                 }
-                
+
             } else {
                 let gcuId = user.authGCU[0];
                 let gcu = await this.groupCuService.getGcu(gcuId);
