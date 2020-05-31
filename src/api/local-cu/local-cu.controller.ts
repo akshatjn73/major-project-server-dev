@@ -5,7 +5,7 @@ import { LocalCuService } from './local-cu.service';
 import { identity } from 'rxjs';
 import { MemberService } from '../../repositories/member/member.service';
 
-@Controller('lcu')
+@Controller()
 export class LocalCuController {    
     constructor(private readonly configService: ConfigService,
         private readonly localCuService: LocalCuService,
@@ -13,7 +13,7 @@ export class LocalCuController {
     ) { }
     
     // @UseGuards(JwtAuthGuard)
-    @Post()
+    @Post('lcu')
     async createLcu(
         @Request() req,
         @Res() res,
@@ -43,7 +43,7 @@ export class LocalCuController {
     // }
 
     @UseGuards(JwtAuthGuard)
-    @Get()
+    @Get('lcu')
     async getAllLcu(
         @Request() req,
         @Res() res,
@@ -66,7 +66,7 @@ export class LocalCuController {
         }
     }
 
-    @Get(':id')
+    @Get('lcu/:id')
     async getLcu(
         @Res() res,
         @Param('id') id
@@ -88,4 +88,26 @@ export class LocalCuController {
             });
         }
     }
+
+    @UseGuards(JwtAuthGuard)
+    @Get('lcutemp')
+    async getLcuHighestTemperatures(
+        @Request() req,
+        @Res() res,
+    ) {
+        try {
+            let user = await this.memberService.findOne(req.user.id);
+            let lcus = user.authLCU;
+            const data = await this.localCuService.getHighestTemperatures(lcus);
+            if (data) {
+                return res.status(HttpStatus.OK).json(data);
+            }          
+        } catch (error) {
+            Logger.error(error);
+            return res.status(HttpStatus.BAD_REQUEST).json({
+                message: error.message
+            });
+        }
+    }
+
 }

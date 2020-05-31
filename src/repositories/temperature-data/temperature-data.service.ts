@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Temperature } from './temperature-data.entity';
@@ -34,9 +34,11 @@ export class TemperatureDataService {
             .where("temperature.switchId = :id", {
                 id: switchId
             })
-            .select("MAX(temperature.value)", "max")
+            .select(["MAX(temperature.value) as maxTemp", "temperature.createdAt as createdAt"])
             .getRawOne()
-
+        
+        Logger.log(items);
         return items
     }
+
 }

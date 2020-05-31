@@ -51,7 +51,7 @@ export class GroupCuService {
             for (let smartSwitch of switches) {
                 sum+=smartSwitch.time;
                 let highestTemp = await this.temperatureService.getHighestTemperatures(smartSwitch.id);
-                temperatures.push(highestTemp.max);
+                temperatures.push(highestTemp.maxTemp);
                 let power = smartSwitch.time*smartSwitch.powerRating;
                 totalPower+=power;
                 if (smartSwitch.state) {

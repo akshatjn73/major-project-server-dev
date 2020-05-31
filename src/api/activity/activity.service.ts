@@ -37,6 +37,7 @@ export class ActivityService {
             .andWhere("activeData.createdAt > :previousDate", {
                 previousDate: previousDate.toISOString()
             })
+            .orderBy(`activeData.createdAt`, 'ASC')
             .getMany();
         
         for (let item of items) {

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { LcuService } from '../../repositories/lcu/lcu.service';
 import { async } from 'rxjs/internal/scheduler/async';
 import { TemperatureDataService } from '../../repositories/temperature-data/temperature-data.service';
@@ -63,7 +63,7 @@ export class LocalCuService {
         for (let smartSwitch of switches) {
             sum+=smartSwitch.time;
             let highestTemp = await this.temperatureService.getHighestTemperatures(smartSwitch.id);
-            temperatures.push(highestTemp.max);
+            temperatures.push(highestTemp.maxTemp);
             let power = smartSwitch.time*smartSwitch.powerRating;
             totalPower+=power;
             if (smartSwitch.state) {
@@ -78,5 +78,50 @@ export class LocalCuService {
             switchCount,
             activeSwitchCount
         };
+    }
+
+    async getHighestTemperatures(lcus) {
+        let temperatures = [];
+        let timestamps = [];
+        let times = [];
+        let time:any;
+        let names = []
+        let data = []
+        for (let id of lcus) {
+            let lcu = await this.getLcu(id);
+            names.push(lcu.name);
+            for (let smartSwitch of lcu.switches) {
+                let highestTemp = await this.temperatureService.getHighestTemperatures(smartSwitch.id);
+                temperatures.push(highestTemp.maxTemp);
+                if (highestTemp.createdAt == null) {
+                    time = highestTemp.createdAt;
+                } else {
+                    let timeString = highestTemp.createdAt.toString();
+                    let startIndex = timeString.search('2020 ') + 5;
+                    time = await this.getString(timeString,startIndex, startIndex+5);
+                }
+                timestamps.push(time);
+            }
+            let temperatureData = {
+                data: temperatures,
+                label: lcu.name
+            };
+            data.push(temperatureData);
+            temperatures = [];
+        }
+        Logger.log(timestamps)
+        let timeData = {
+            timestamp: timestamps
+        }
+        Logger.log(timeData)
+        times.push(timeData)
+        return {
+            data,
+            times
+        }
+    }
+
+    async getString(str, start, end) {
+        return str.slice(start, end);
     }
 }
